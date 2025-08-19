@@ -8,17 +8,17 @@ export const Navbar = ({}) => {
     const [isOpen, setIsOpen] = useState(false);
     const navItems = [
         { href: "/", label: "Home" },
-        { href: "/about", label: "About" },
-        { href: "/contact", label: "Contact" },
+        { href: "/budget", label: "Add Budget" },
+        { href: "/transactions", label: "Transactions" },
     ];
     return (
-        <header className="fixed top-0 left-0 right-0 z-50 bg-white">
-            <nav className="container mx-auto flex h-16 items-center justify-between px-4">
+        <header className="bg-white w-full">
+            <nav className="container flex h-16 items-center justify-between px-4">
                 <Link href="/" className="flex items-center space-x-2">
                     <span className="text-xl sm:inline">Smart Budget</span>
                 </Link>
                 <Sheet open={isOpen} onOpenChange={setIsOpen}>
-                    <SheetTrigger asChild className="md:hidden">
+                    <SheetTrigger asChild>
                         <button className="text-gray-600 hover:text-gray-900">
                             <Menu className="h-6 w-6" />
                         </button>
