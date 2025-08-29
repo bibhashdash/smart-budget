@@ -13,6 +13,7 @@ import {format} from "date-fns";
 import {Calendar} from "@/components/ui/calendar";
 
 export default function Transactions() {
+    const [title, setTitle] = useState<string>("");
     const [category, setCategory] = useState<string>("")
     const [account, setAccount] = useState<string>("")
     const [accounts, setAccounts] = useState<Account[]>([]);
@@ -31,6 +32,7 @@ export default function Transactions() {
                     accountName: data.accountName,
                     balance: data.balance,
                     isMain: data.isMain,
+                    includeInLiquid: data.includeInLiquid,
                 }
             })
             setAccounts(accounts);
@@ -46,6 +48,7 @@ export default function Transactions() {
         if (category && account) {
             try {
                 await addDoc(collection(db, "transactions"), {
+                    title: title,
                     category: category,
                     value: value,
                     date: date,
@@ -59,18 +62,23 @@ export default function Transactions() {
     }
     return (
         <div className="w-full px-2 flex flex-col gap-4">
-            <h1>Add a Budget</h1>
+            <h1>Add a Transaction</h1>
             <form className="flex flex-col gap-5">
+                <div className="flex flex-col gap-2">
+                    <Label htmlFor="title">Title</Label>
+                    <Input name="title" value={title} onChange={e => setTitle(e.target.value)} type="text" required/>
+                </div>
                 <div className="flex flex-col gap-2">
                     <Label>Account</Label>
                     <Select value={account} onValueChange={value => setAccount(value)}>
                         <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Select a category"/>
+                            <SelectValue placeholder="Select an account"/>
                         </SelectTrigger>
                         <SelectContent>
                             {
                                 accounts.map(item =>
-                                    <SelectItem key={item.accountId} value={item.accountId}>{item.accountName}</SelectItem>)
+                                    <SelectItem key={item.accountId}
+                                                value={item.accountId}>{item.accountName}</SelectItem>)
                             }
                         </SelectContent>
                     </Select>

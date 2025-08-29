@@ -3,14 +3,20 @@ import {useState} from "react";
 import Link from "next/link";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
-
+import { Separator } from "@/components/ui/separator"
+import {signOut} from "@firebase/auth";
+import {auth} from "@/firebase";
+import {useRouter} from "next/navigation";
 export const Navbar = ({}) => {
+    const router = useRouter();
     const [isOpen, setIsOpen] = useState(false);
     const navItems = [
         { href: "/", label: "Home" },
-        { href: "/budget", label: "Add Budget" },
-        { href: "/transactions", label: "Transactions" },
+        { href: "/profile", label: "Profile" },
     ];
+    const handleSignOut = () => {
+        signOut(auth).then(() => router.push("/"));
+    }
     return (
         <header className="bg-white w-full">
             <nav className="container flex h-16 items-center justify-between px-4">
@@ -36,6 +42,8 @@ export const Navbar = ({}) => {
                                     {item.label}
                                 </Link>
                             ))}
+                            <Separator />
+                            <a onClick={() => handleSignOut()}>Sign Out</a>
                         </div>
                     </SheetContent>
                 </Sheet>

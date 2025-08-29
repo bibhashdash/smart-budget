@@ -1,33 +1,19 @@
 "use client"
 import React, {useState} from "react";
+import {useRouter} from "next/navigation";
 import {Input} from "@/components/ui/input"
 import {Label} from "@/components/ui/label"
-import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group"
 import {Calendar as CalendarIcon, SquarePlus} from "lucide-react"
 import {Calendar} from "@/components/ui/calendar"
 import {Button} from "@/components/ui/button"
-import {
-    Dialog,
-    DialogTrigger,
-} from "@/components/ui/dialog"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover"
+import {Dialog, DialogTrigger,} from "@/components/ui/dialog"
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/ui/select"
+import {Popover, PopoverContent, PopoverTrigger,} from "@/components/ui/popover"
 import {format} from "date-fns";
-import {BudgetLineItem} from "@/lib/utils";
+import {BudgetCategories, BudgetLineItem} from "@/lib/utils";
 import {BudgetModal} from "@/app/budget/budgetModal";
 import {db} from "@/firebase";
 import {addDoc, collection} from "firebase/firestore";
-import {BudgetCategories} from "@/lib/utils";
 
 export default function Budget() {
     const [category, setCategory] = useState<string>("")
@@ -36,9 +22,11 @@ export default function Budget() {
     const [endDate, setEndDate] = useState<Date>(new Date())
     const [lineItems, setLineItems] = useState<Array<BudgetLineItem>>([])
     const [showLineItemForm, setShowLineItemForm] = useState<boolean>(false)
-
+    const router = useRouter();
     // console.log(BudgetCategoriesEnum)
-
+    for (const value of Object.values(BudgetCategories)) {
+        // console.log(value)
+    }
     async function addBudgetEntry(e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
         if (category) {
@@ -50,6 +38,7 @@ export default function Budget() {
                     endDate: endDate,
                     lineItems: lineItems,
                 })
+                router.push("/")
                 console.log("Document written with ID: ");
             } catch (err) {
                 console.log(err);
@@ -69,7 +58,8 @@ export default function Budget() {
                         </SelectTrigger>
                         <SelectContent>
                             {
-                                Object.entries(BudgetCategories).map(([key, value]) => key !== "9" && <SelectItem key={key} value={key}>{value}</SelectItem>)
+                                Object.entries(BudgetCategories)
+                                    .map(([key, value]) => key !== "9" && <SelectItem key={key} value={key}>{value}</SelectItem>)
                             }
                         </SelectContent>
                     </Select>

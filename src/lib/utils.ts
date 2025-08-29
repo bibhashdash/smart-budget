@@ -1,48 +1,57 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import {clsx, type ClassValue} from "clsx"
+import {twMerge} from "tailwind-merge"
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+    return twMerge(clsx(inputs))
 }
 
 export const BudgetCategories = {
-  0: "Groceries",
-  1: "Insurances",
-  2: "Bills",
-  3: "Entertainment",
-  4: "Health",
-  5: "Telecommunication",
-  6: "Dining",
-  7: "Vehicles",
-  8: "Savings",
-  9: "Other",
+    "0": "Groceries",
+    "1": "Insurances",
+    "2": "Bills",
+    "3": "Entertainment",
+    "4": "Health",
+    "5": "Telecommunication",
+    "6": "Dining",
+    "7": "Vehicles",
+    "8": "Savings",
+    "9": "Other",
 }
 
 export interface Transaction {
-  accountId: string;
-  amount: number;
-  budgetCategory: number;
-  budgetName: string;
-  date: Date;
+    id: string,
+    title: string,
+    accountId: string;
+    amount: number;
+    budgetCategory: string;
+    budgetName: string;
+    date: Date;
 }
 
 export interface Account {
-  accountId: string;
-  accountName: string;
-  balance: number;
-  isMain: boolean;
+    accountId: string;
+    accountName: string;
+    balance: number;
+    isMain: boolean;
+    includeInLiquid: boolean;
 }
 
 export interface Budget {
-  value: number;
-  category: number;
-  id: string;
-  startDate: Date;
-  endDate: Date;
-  lineItems?: Array<BudgetLineItem>;
+    value: number;
+    category: string;
+    id: string;
+    startDate: Date;
+    endDate: Date;
+    lineItems?: Array<BudgetLineItem>;
 }
 
 export interface BudgetLineItem {
-  name: string;
-  value: number;
+    name: string;
+    value: number;
+}
+
+export interface User {
+    id: string,
+    name: string,
+    email: string,
 }
